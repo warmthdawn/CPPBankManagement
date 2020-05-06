@@ -28,7 +28,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="main_window.html">
+    <None Include="..\x64\Debug\assets\main_window.html">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>

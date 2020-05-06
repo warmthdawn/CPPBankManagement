@@ -172,7 +172,7 @@
     <ClInclude Include="MainWindow.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="main_window.html" />
+    <None Include="..\x64\Debug\assets\main_window.html" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

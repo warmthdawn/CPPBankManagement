@@ -30,6 +30,8 @@ public:
     // This is called when the DOM has loaded in the main frame. Update JS here.
     virtual void OnDOMReady(View* caller) override;
 
+    JSValue GetMessage(const JSObject& thisObject, const JSArgs& args);
+
 protected:
     RefPtr<App> app_;
     RefPtr<Window> window_;

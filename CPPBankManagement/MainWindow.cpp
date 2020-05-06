@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include <AppCore/JSHelpers.h>
 using namespace ultralight;
 
 #define WINDOW_WIDTH  600
@@ -39,4 +40,15 @@ void MainWindow::OnFinishLoading(View* caller) {
 }
 
 void MainWindow::OnDOMReady(View* caller) {
+    SetJSContext(caller->js_context());
+    JSObject global = JSGlobalObject();
+
+    //绑定C++方法到前端
+    global["GetMessage"] = BindJSCallbackWithRetval(&MainWindow::GetMessage);
+}
+
+JSValue MainWindow::GetMessage(const JSObject& thisObject, const JSArgs& args) {
+    
+    
+    return JSValue("Hello 1");
 }
