@@ -1,9 +1,10 @@
-Ôªø#include <iostream>
+#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")//≤ªœ‘ æøÿ÷∆Ã®
+
 #include "MainWindow.h"
 
-int main()
-{
-	MainWindow window;
-	window.Run();
-	return 0;
+int main() {
+    MainWindow app;
+    app.Run();
+
+    return 0;
 }

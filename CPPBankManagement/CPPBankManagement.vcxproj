@@ -165,14 +165,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="AccountFile.cpp" />
+    <ClCompile Include="Adapt.cpp" />
+    <ClCompile Include="BankAccount.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AccountFile.h" />
+    <ClInclude Include="Adapt.h" />
+    <ClInclude Include="BankAccount.h" />
     <ClInclude Include="MainWindow.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\x64\Debug\assets\main_window.html" />
+    <None Include="Readme.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

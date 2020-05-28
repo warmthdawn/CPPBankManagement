@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.min">
+    <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+
+</head>
+
+<body>
+    <div class="modal" id='modal_info' tabindex="-1" role="dialog" data-backdrop="static">
+        <div class="modal-dialog .modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ title }}</h5>
+                    <a type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <p>{{ body }}</p>
+                </div>
+                <div v-show='is_warning' class="modal-footer">
+                    <a class="btn btn-secondary" data-dismiss="modal">取消</a>
+                    <a class="btn btn-danger" data-dismiss="modal" v-on:click='warn_click'>确定</a>
+                </div>
+                <div v-show='!is_warning' class="modal-footer">
+                    <a class="btn btn-secondary" data-dismiss="modal">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="width: 95%;" class="container-fluid">
+        <h2>银行账户管理系统</h2>
+        <div class="form-group row" id="dropdown_list">
+            <input type="text" data-toggle="dropdown" autocomplete="off" class="form-control col-sm-9 col-md-10"
+                id="id_account" placeholder="输入账号以开始" aria-haspopup="true" aria-expanded="false">
+            <div class="dropdown-menu" aria-labelledby="id_account">
+                <a v-for="acc_id in lists" class="dropdown-item" v-on:click="acc_click" href="#">{{acc_id}}</a>
+            </div>
+            <a class="btn btn-success col-sm-3 col-md-2" id='btn_register'>注册</a>
+            <div class="text-right text-warning" v-if="error">当前账户不存在！</div>
+        </div>
+        <div class="card" id="acc_display">
+            <div class="card-header">
+                账号 {{ id_account_display }}
+            </div>
+            <div class="media">
+                <template v-if="editing">
+                    <div class="media-body form-inline">
+                        <div class="card-body">
+                            <h5 class="card-title">姓名：<input type="text" class="form-control" v-model="name_display">
+                            </h5>
+                            <h6 class="card-subtitle mb-2 text-muted">身份证号：<input type="text"
+                                    class="form-control  form-control-sm w-75" v-model="id_dispaly"></h6>
+                            <p class="card-text">地址：<input type="text" class="form-control form-control-sm"
+                                    v-model="address_display">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="align-self-center m-1">
+                        <h5 class="text-center">
+                            账户余额
+                        </h5>
+                        <input type="text" class="form-control form-control-sm border" v-model="balance_display">
+                    </div>
+
+                </template>
+                <template v-else>
+                    <div class="media-body">
+                        <div class="card-body">
+                            <h5 class="card-title">姓名：{{name_display}}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">身份证号：{{id_dispaly}}</h6>
+                            <p class="card-text">地址：{{address_display}}</p>
+                        </div>
+                    </div>
+                    <div class="align-self-center mr-5 pr-5">
+                        <h5 class="text-center">
+                            账户余额
+                        </h5>
+                        <h3>
+                            <span class="border bg-light">
+                                {{balance_display}}
+                            </span>
+                        </h3>
+                    </div>
+
+                </template>
+            </div>
+            <template v-if="editing">
+                <div class="card-body text-right">
+                    <a href="#" v-on:click="btn_submit" class="btn btn-success">确定</a>
+                    <a href="#" v-on:click="btn_cancel" class="btn btn-warning">取消</a>
+                </div>
+            </template>
+            <template v-else>
+                <div class="card-body text-right">
+                    <a href="#" v-on:click="btn_edit" v-bind:class="enable_edit">编辑账户信息</a>
+                    <a href="#" v-on:click="btn_delete" v-bind:class="enable_delete">删除账号</a>
+                </div>
+            </template>
+
+        </div>
+    </div>
+    </div>
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script>
+        let data = [];
+        let toggleOn = function () {
+            if (!$("#dropdown_list").hasClass('show')) {
+                $("#id_account").dropdown('toggle');
+            }
+        };
+        let toggleOff = function () {
+            if ($("#dropdown_list").hasClass('show')) {
+                $("#id_account").dropdown('toggle');
+            }
+        };
+
+        let setDisplay = function (dataD) {
+            console.log(dataD.name);
+            display.id_account_display = dataD.id_account;
+            display.name_display = dataD.name;
+            display.id_dispaly = dataD.id_card;
+            display.address_display = dataD.address;
+            display.balance_display = dataD.balance;
+        }
+
+        let flushDisplay = function () {
+            let id = $("#id_account").val();
+            if (data.indexOf(id) >= 0) {
+                GetAccount(id);
+            }
+
+        }
+
+        let clearDisplay = function () {
+            display.name_display = '';
+            display.id_dispaly = '';
+            display.address_display = '';
+            display.balance_display = '';
+            display.id_account_display = '';
+        }
+
+        let showMessage = function (title, body) {
+            modal_info_vue.is_warning = false;
+            modal_info_vue.title = title;
+            modal_info_vue.body = body;
+            $('#modal_info').modal('show');
+            return;
+        }
+
+        let accounts = new Vue({
+            el: '#dropdown_list',
+            data: {
+                lists: [],
+                error: false
+            },
+            methods: {
+                acc_click: function (event) {
+                    let id = $(event.target).html();
+                    $("#id_account").val(id);
+                    $("#id_account").change();
+                }
+            }
+        });
+        let modal_info_vue = new Vue({
+            el: '#modal_info',
+            data: {
+                is_warning: true,
+                title: '',
+                body: ''
+            },
+            methods: {
+                warn_click: function () {
+                    RemoveAccount(display.id_account_display);
+                }
+            }
+        })
+        let display = new Vue({
+            el: '#acc_display',
+            data: {
+                id_account_display: '',
+                name_display: '',
+                id_dispaly: '',
+                address_display: '',
+                balance_display: '',
+                editing: false,
+                add: false
+            },
+            computed: {
+                enable_edit: function () {
+                    return {
+                        btn: true,
+                        'btn-warning': true,
+                        disabled: !this.id_account_display
+                    };
+                },
+                enable_delete: function () {
+                    return {
+                        btn: true,
+                        'btn-danger': true,
+                        disabled: !this.id_account_display
+                    };
+                }
+            },
+            methods: {
+                btn_edit: function () {
+                    this.editing = true;
+                    this.add = false;
+                },
+                btn_submit: function () {
+                    this.editing = false;
+
+                    if (this.add) {
+                        AddAccount(this.id_account_display, this.id_dispaly, this.name_display, this
+                            .address_display, this.balance_display);
+                    } else {
+                        EditAccount(this.id_account_display, this.id_dispaly, this.name_display, this
+                            .address_display, this.balance_display);
+                    }
+
+                },
+                btn_delete: function () {
+                    modal_info_vue.is_warning = true;
+                    modal_info_vue.title = '警告';
+                    modal_info_vue.body = '是否真的删除账号 ' + this.id_account_display;
+                    $('#modal_info').attr('data-backdrop', 'static');
+                    $('#modal_info').modal('show');
+                },
+                btn_cancel: function () {
+                    this.editing = false;
+                }
+
+            }
+
+        });
+        let read_data = function () {
+            let str = GetLists();
+            console.log(str)
+            data = $.parseJSON(str);
+        };
+        let initial_selections = function (keyword) {
+
+            let result = [];
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+                if (element.indexOf(keyword) >= 0) {
+                    result.push(element);
+                }
+                if (result.length > 5) {
+                    break;
+                }
+            }
+            accounts.lists.splice(0);
+            accounts.lists.push(...result);
+
+            if (result.length === 0) {
+                accounts.error = true;
+            } else {
+                accounts.error = false;
+            }
+        };
+        $(() => {
+            $("#id_account").bind('input propertychange', () => {
+                initial_selections($("#id_account").val())
+                if (accounts.error) {
+                    toggleOff();
+                } else {
+                    toggleOn();
+                }
+
+            });
+
+            $("#id_account").change(() => flushDisplay());
+
+            $('#btn_register').click(function () {
+                let id_acco = $("#id_account").val();
+                if (id_acco === '' || data.indexOf(id_acco) >= 0) {
+                    modal_info_vue.is_warning = false;
+                    modal_info_vue.title = '无法创建账号';
+                    modal_info_vue.body = '当前账号已被注册或格式不正确';
+                    $('#modal_info').modal('show');
+                    return;
+                }
+                clearDisplay();
+                display.id_account_display = id_acco;
+                display.editing = true;
+                display.add = true;
+
+            });
+
+            read_data();
+            initial_selections("");
+
+        });
+    </script>
+</body>
+
+</html>
