@@ -21,7 +21,6 @@ public:
 	void setName(string name) { this->name = name; }                               //修改姓名
 	void setAddress(string address) { this->address = address; }                   //修改地址
 	void setBalance(double balance) { this->balance = balance; }                   //修改余额
-	void setId_account(string id_account) { this->id_account = id_account; }
 	//析构函数
 	~BankAccount();
 private:

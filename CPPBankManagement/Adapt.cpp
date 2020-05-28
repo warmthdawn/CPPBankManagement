@@ -29,7 +29,7 @@ Adapt::Adapt()                                                                  
 
 	//实现对象中每种数据的转换
 	string* all;
-	AccountFile* account=new AccountFile;
+	AccountFile* account = new AccountFile;
 	int n = account->allObject(&all);
 
 	string s = "[\"";
@@ -80,64 +80,75 @@ bool AccountFile::judge()
 	return false;
 }
 //四种添加构造
-bool Adapt::Add(string id_account, string id_card, string name, string address) {
-	AccountFile* account1 = new AccountFile(id_account);
-	account1->setId_account(id_account);
-	if (account1->judge()) {
-		Delete(id_account);
+bool Adapt::Add(string id_account, string id_card, string name, string address) {	
+	BankAccount *newAccount1=new BankAccount(id_account, id_card, name,address);//通过newAccount1来实现acconut的AccountFile类的副本构造
+	AccountFile account1(id_account, newAccount1);
+	AccountFile newAccount2(id_account, newAccount1);//生成副本
+	//account1->setId_account(id_account);
+	if (account1.judge()) {
+		account1.deleteObject();//删除account1指向的文件中的账户
 		cout << "账户出现重复，原有账户已删除,并生成一个新账户。" << endl;
-		delete account1;
-		BankAccount newBankAccount=BankAccount(id_account, id_card, name, address);
+		newAccount2.writeObject();//用副本写入新的账户
+		delete newAccount1; 
+		//BankAccount newBankAccount=BankAccount(id_account, id_card, name, address);
 		return true;
 			}
 	else {
-		delete account1;
-	    BankAccount newBankAccount =BankAccount(id_account, id_card, name, address);
+		account1.writeObject();//直接写入新的账户
+	    //BankAccount newBankAccount =BankAccount(id_account, id_card, name, address);
 		cout << "操作成功，已生成一个新账户。" << endl;
+		delete newAccount1;
 		return true;
 	}
 }
 bool Adapt::Add(string id_account, string id_card, string name, string address, double balance) {
 	//相同的代码重用
-	AccountFile* account1 = new AccountFile(id_account);
-	account1->setId_account(id_account);
-	if (account1->judge()) {
-		Delete(id_account);
+	BankAccount* newAccount1 = new BankAccount(id_account, id_card, name, address,balance);//通过newAccount1来实现acconut的AccountFile类的副本构造
+	AccountFile account1(id_account, newAccount1);
+	AccountFile newAccount2(id_account, newAccount1);//生成副本
+	if (account1.judge()) {
 		cout << "账户出现重复，原有账户已删除,并生成一个新账户。" << endl;
-		delete account1;
-		BankAccount newBankAccount =BankAccount(id_account, id_card, name, address, balance);
+		account1.deleteObject();
+		newAccount2.writeObject();
+		delete newAccount1;
+		//BankAccount newBankAccount =BankAccount(id_account, id_card, name, address, balance);
 		return true;
 	}
 	else {
-		delete account1;
-		BankAccount newBankAccount =BankAccount(id_account, id_card, name, address, balance);
+		account1.writeObject();
+		delete  newAccount1;
+		//BankAccount newBankAccount =BankAccount(id_account, id_card, name, address, balance);
 		cout << "操作成功，已生成一个新账户。" << endl;
 		return true;
 	}
 }
 bool Adapt::Add(string id_account) {
 	//相同代码重用
-	AccountFile* account1 = new AccountFile(id_account);
-	account1->setId_account(id_account);
-	if (account1->judge()) {
-		Delete(id_account);
+	BankAccount* newAccount1 = new BankAccount(id_account);//通过newAccount1来实现acconut的AccountFile类的副本构造
+	AccountFile account1(id_account, newAccount1);
+	AccountFile newAccount2(id_account, newAccount1);//生成副本
+	if (account1.judge()) {
 		cout << "账户出现重复，原有账户已删除,并生成一个新账户。" << endl;
-		delete account1;
-		BankAccount newBankAccount = BankAccount(id_account);
+		account1.deleteObject();
+		newAccount2.writeObject();
+		delete newAccount1;
+		//AccountFile newBankAccount = AccountFile(id_account);
+		//newBankAccount.writeObject();
 		return true;
 	}
 	else {
-		delete account1;
-		BankAccount newBankAccount = BankAccount(id_account);
+		account1.writeObject();
+		delete newAccount1;
+		//AccountFile newBankAccount = AccountFile(id_account);
+		//newBankAccount.writeObject();
 		cout << "操作成功，已生成一个新账户。" << endl;
 		return true;
 	}
 }
 bool Adapt::Add() {
+	cout << "添加失败" << endl;
 	return true;
 }
-
-
 string Adapt::getAll(string id_account) {
 	AccountFile* t_account1 = new AccountFile(id_account);
 	BankAccount t_account = t_account1->findAccount(id_account);

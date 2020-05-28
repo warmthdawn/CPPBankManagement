@@ -170,12 +170,14 @@
     <ClCompile Include="BankAccount.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Text_Binary.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AccountFile.h" />
     <ClInclude Include="Adapt.h" />
     <ClInclude Include="BankAccount.h" />
     <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="Text_Binary.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Readme.md" />

@@ -1,7 +1,8 @@
 #include "AccountFile.h"
-#include"Adapt.h"
+#include "Adapt.h"
+#include "Text_Binary.h"
 #include <fstream>
-#include<iostream>
+#include <iostream>
 AccountFile::AccountFile(string id_account, BankAccount* object_account)               //构造函数 有账号有对象
 	: id_account(id_account), object_account(object_account), file_name(FILE_NAME)
 {
@@ -24,6 +25,8 @@ AccountFile::AccountFile()                                                      
 }
 bool AccountFile::writeObject()                                //写入对象
 {
+	//将二进制文件转换为文本文件
+	BinaryToTxt(FILE_NAME);
 	ofstream fileout(FILE_NAME, ios::app | ios::binary); //打开文件
 	if (!fileout) //读取失败
 	{
@@ -37,10 +40,14 @@ bool AccountFile::writeObject()                                //写入对象
 		<< object_account->getAddress() << " "
 		<< to_string(object_account->getBalance()) << endl;
 	fileout.close();
+	//将文本文件转化为二进制文件
+	TxtToBinary(FILE_NAME);
 	return true;
 }
-string AccountFile::readObject()                          //读取对象
+string AccountFile::readObject()                               //读取对象
 {
+	//将二进制文件转换为文本文件
+	BinaryToTxt(FILE_NAME);
 	//打开文件
 	ifstream filein(FILE_NAME, ios::in | ios::binary);
 	if (!filein) //打开失败
@@ -70,9 +77,10 @@ string AccountFile::readObject()                          //读取对象
 		k++;
 	}
 	filein0.close();
+	//将文本文件转化为二进制文件
+	TxtToBinary(FILE_NAME);
 	//找到指定对象
-	//BankAccount account; //默认对象 字符串成员均为null
-	string account;
+	string account = "";
 	for (int j = 0; j < i; j++)
 	{
 		if (this->id_account == id_account[j])
@@ -80,8 +88,12 @@ string AccountFile::readObject()                          //读取对象
 			double double_balance = atof(const_cast<const char*>(balance[j].c_str())); //把字符串转换为浮点型
 			BankAccount bankaccount(id_account[j], id_card[j], name[j], address[j], double_balance);
 			//将找到的账户中的对象转化为string类型作为返回值
-			string account("{\"id_account\":\"" + bankaccount.getId_account() + "\"," + "\"id_card\":\"" + bankaccount.getId_card() + "\","
-				+ "\"name\":\"" + bankaccount.getName() + "\"," + "\"address\":\"" + bankaccount.getAddress() + "\"," + "\"balance\":\" "+to_string( bankaccount.getBalance())+"\"}");
+			account = "{\"id_account\":\"" + bankaccount.getId_account()
+				+ "\"," + "\"id_card\":\"" + bankaccount.getId_card()
+				+ "\"," + "\"name\":\"" + bankaccount.getName()
+				+ "\"," + "\"address\":\"" + bankaccount.getAddress()
+				+ "\"," + "\"balance\":\" " + to_string(bankaccount.getBalance())
+				+ "\"}";
 			break;
 		}
 	}
@@ -95,6 +107,8 @@ string AccountFile::readObject()                          //读取对象
 }
 bool AccountFile::deleteObject()                               //删除对象
 {
+	//将二进制文件转换为文本文件
+	BinaryToTxt(FILE_NAME);
 	//打开文件
 	ifstream filein(FILE_NAME, ios::in | ios::binary);
 	if (!filein) //打开失败
@@ -156,6 +170,8 @@ bool AccountFile::deleteObject()                               //删除对象
 			<< balance[i] << endl;
 	}
 	fileout.close();
+	//将文本文件转化为二进制文件
+	TxtToBinary(FILE_NAME);
 	//释放内存
 	delete[] id_account;
 	delete[] id_card;
@@ -166,6 +182,8 @@ bool AccountFile::deleteObject()                               //删除对象
 }
 int AccountFile::allObject(string** result)                    //所有账号
 {
+	//将二进制文件转换为文本文件
+	BinaryToTxt(FILE_NAME);
 	//打开文件
 	ifstream filein(FILE_NAME, ios::in | ios::binary);
 	if (!filein) //打开失败
@@ -194,13 +212,14 @@ int AccountFile::allObject(string** result)                    //所有账号
 		k++;
 	}
 	filein0.close();
+	//将文本文件转化为二进制文件
+	TxtToBinary(FILE_NAME);
 	//写入字符串数组
 	string* allObject = new string[i];
 	for (int j = 0; j < i; j++)
 	{
 		allObject[j] = id_account[j];
 	}
-	
 	//传给输入
 	*result = allObject;
 	//释放内存
@@ -212,9 +231,11 @@ int AccountFile::allObject(string** result)                    //所有账号
 	return i;
 }
 
-//	Adapt中要用到的一个函数
+//Adapt类中要用到的一个函数
 BankAccount AccountFile::findAccount(string input_id_account)
 {
+	//将二进制文件转换为文本文件
+	BinaryToTxt(FILE_NAME);
 	//打开文件
 	ifstream filein(FILE_NAME, ios::in | ios::binary);
 	if (!filein) //打开失败
@@ -231,11 +252,11 @@ BankAccount AccountFile::findAccount(string input_id_account)
 	filein.close();
 	//读取所有对象
 	ifstream filein0(FILE_NAME, ios::in | ios::binary);
-	string id_account="";
-	string id_card="";
-	string name="";
-	string address="";
-	string balance="";
+	string id_account = "";
+	string id_card = "";
+	string name = "";
+	string address = "";
+	string balance = "";
 	BankAccount account;
 	while (filein0 >> id_account && filein0 >> id_card && filein0 >> name && filein0 >> address && filein0 >> balance)
 	{
@@ -252,6 +273,8 @@ BankAccount AccountFile::findAccount(string input_id_account)
 		}
 	}
 	filein0.close();
+	//将文本文件转化为二进制文件
+	TxtToBinary(FILE_NAME);
 	return account;
 }
 AccountFile::~AccountFile()                                                            //析构函数

@@ -9,7 +9,7 @@ public:
 	Adapt();
 	string All();
 	bool Delete(string id_account);
-    Adapt(string id_account, string id_card, string name, string address, double balance);  //构造函数 包括余额
+    Adapt(string id_account, string id_card, string name, string address, double balance);   //构造函数 包括余额
 	Adapt(string id_account, string id_card, string name, string address);                   //构造函数 不包括余额
 	Adapt(string id_account);                                                                //构造函数 只有账号	
 	bool Add(string id_account, string id_card, string name, string address, double balance);  

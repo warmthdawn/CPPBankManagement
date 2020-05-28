@@ -1,7 +1,7 @@
 #pragma once
 #include "BankAccount.h"
 #include <string>
-#define FILE_NAME "file_bankaccount.txt"   //文件名
+#define FILE_NAME "file_bankaccount.dat"   //文件名
 using namespace std;
 //账户文件类
 class AccountFile
@@ -14,7 +14,7 @@ public:
 	AccountFile();                                                     //构造函数 无账号无对象
 	//读写对象
 	bool writeObject();                                                //写入对象
-	string readObject();                                          //读取对象
+	string readObject();                                               //读取对象
 	bool deleteObject();                                               //删除对象
 	BankAccount findAccount(string id_account);
 	int allObject(string** result);								       //所有账号
@@ -27,8 +27,8 @@ public:
 	{
 		this->id_account = id_account;
 	}
-	~AccountFile();                                                    //析构函数
 	bool judge();                                                      //一个判断是否有重复账户的函数
+	~AccountFile();                                                    //析构函数
 private:
 	string file_name;                      //文件名
 	string id_account;                     //账号

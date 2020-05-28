@@ -30,6 +30,9 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Text_Binary.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainWindow.h">
@@ -42,6 +45,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Adapt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Text_Binary.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
