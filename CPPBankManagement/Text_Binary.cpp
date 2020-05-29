@@ -14,13 +14,11 @@ void TxtToBinary(const char* filename) {
     char cRead;            // 存储读文件流的数据
     fin.open(filename, ios::in | ios::binary);
     fout.open("mybinary.dat");
-    if (!fin) { cout << "can't open file";  return; }
     while (fin.peek() != EOF) {
         fin.read(&cRead, 1);
         for (i = 0; i < SIZE; i++) {
             if ((1 << SIZE - i - 1) & cRead) { ibina[i] = 1; }
-            else { ibina[i] = 0; }
-            //cout << ibina[i];                          //测试时去掉前面语句的双斜杠即可
+            else { ibina[i] = 0; }                        //测试时去掉前面语句的双斜杠即可
             fout << ibina[i];
         }
     }
@@ -38,7 +36,6 @@ void BinaryToTxt(const char* filename) {
     char cChar;                    //存放由二进制还原的字符
     fin.open(filename, ios::in | ios::binary);
     fout.open("mytext.dat");
-    if (!fin) { cout << "cannot open file";  return; }
     while (fin.peek() != EOF) {
         fin.read(cRead, SIZE);
         //将字符转换为0101形式后存入整型数组  

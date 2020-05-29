@@ -116,6 +116,28 @@ string UTF8ToGBK(const char* strUTF8)
 	return strTemp;
 }
 
+//数据合法性检查
+bool checkData(char* data) {
+	int i = 0;
+	while (data[i]) {
+		if (data[i] == ' ') {
+			return false;
+		}
+		i++;
+	}
+	return true;
+}
+
+bool checkData(string data) {
+	int i = 0;
+	while (i < data.length()) {
+		if (data[i] == ' ') {
+			return false;
+		}
+		i++;
+	}
+	return true;
+}
 
 //调试日志
 void MainWindow::OnAddConsoleMessage(View* caller,
@@ -227,7 +249,7 @@ JSValue MainWindow::RemoveAccount(const JSObject& thisObject, const JSArgs& args
 	}
 	else {
 		//提示删除失败
-		this->overlay_->view()->EvaluateScript("showMessage('删除失败', '账号不存在')");
+		this->overlay_->view()->EvaluateScript((String8)GBKToUTF8("showMessage('删除失败', '账号不存在')").c_str());
 
 	}
 
@@ -247,12 +269,23 @@ JSValue MainWindow::AddAccount(const JSObject& thisObject, const JSArgs& args) {
 		balance = atof(balance_raw);
 	}
 	catch (...) {
-		this->overlay_->view()->EvaluateScript("showMessage('添加失败', '非法的存款数据')");
+		this->overlay_->view()->EvaluateScript((String8)GBKToUTF8("showMessage('添加失败', '非法的存款数据')").c_str());
 		return NULL;
 	}
+	
+
+
 	//处理编码
 	string name_encoded = UTF8ToGBK(name);
 	string address_encoded = UTF8ToGBK(address);
+
+
+	//检查数据
+	if (!(checkData(id_acc) && checkData(id_card) && checkData(name_encoded) && checkData(address_encoded))) {
+
+		this->overlay_->view()->EvaluateScript((String8)GBKToUTF8("showMessage('添加失败', '请不要输入特殊字符（包括空格）')").c_str());
+		return NULL;
+	}
 
 	//添加
 	bool success = logicAdapt->Add(id_acc, id_card, name_encoded, address_encoded, balance);
@@ -288,12 +321,21 @@ JSValue MainWindow::EditAccount(const JSObject& thisObject, const JSArgs& args) 
 		balance = atof(balance_raw);
 	}
 	catch (...) {
-		this->overlay_->view()->EvaluateScript("showMessage('编辑失败', '非法的存款数据')");
+		this->overlay_->view()->EvaluateScript((String8)GBKToUTF8("showMessage('编辑失败', '非法的存款数据')").c_str());
 		return NULL;
 	}
 	//处理编码
 	string name_encoded = UTF8ToGBK(name);
 	string address_encoded = UTF8ToGBK(address);
+
+
+
+	//检查数据
+	if (!(checkData(id_acc) && checkData(id_card) && checkData(name_encoded) && checkData(address_encoded))) {
+
+		this->overlay_->view()->EvaluateScript((String8)GBKToUTF8("showMessage('添加失败', '请不要输入特殊字符（包括空格）')").c_str());
+		return NULL;
+	}
 
 	//编辑方法与添加方法类似
 	logicAdapt->Add(id_acc, id_card, name_encoded, address_encoded, balance);

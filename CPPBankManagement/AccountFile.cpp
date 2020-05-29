@@ -230,9 +230,18 @@ int AccountFile::allObject(string** result)                    //所有账号
 	delete[] balance;
 	return i;
 }
-
-//Adapt类中要用到的一个函数
-BankAccount AccountFile::findAccount(string input_id_account)
+bool AccountFile::judge()                                      //一个小的判断函数
+{
+	string* id_account = NULL;
+	int nums = this->allObject(&id_account);
+	for (int i = 0; i < nums; i++)
+	{
+		if (this->id_account == id_account[i]) //有相同的
+			return true;
+	}
+	return false;
+}
+BankAccount AccountFile::findAccount(string input_id_account)  //Adapt类中要用到的一个函数
 {
 	//将二进制文件转换为文本文件
 	BinaryToTxt(FILE_NAME);
@@ -264,11 +273,6 @@ BankAccount AccountFile::findAccount(string input_id_account)
 		{
 			double double_balance = atof(const_cast<const char*>(balance.c_str())); //把字符串转换为浮点型
 			account = BankAccount(id_account, id_card, name, address, double_balance);
-/*			account.setAddress(address);
-			account.setBalance(double_balance);
-			account.setId_account(id_account);
-			account.setId_card(id_card);
-			account.setName(name);*/
 			break;
 		}
 	}
