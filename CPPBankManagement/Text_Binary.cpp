@@ -10,8 +10,8 @@ void TxtToBinary(const char* filename) {
     ifstream fin;
     ofstream fout;
     int i = 0;
-    int ibina[SIZE];       // 存放二进制字节流
-    char cRead;            // 存储读文件流的数据
+    int ibina[SIZE];       //存放二进制字节流
+    char cRead;            //存储读文件流的数据
     fin.open(filename, ios::in | ios::binary);
     fout.open("mybinary.dat");
     while (fin.peek() != EOF) {

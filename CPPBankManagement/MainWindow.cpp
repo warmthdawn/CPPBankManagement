@@ -117,10 +117,10 @@ string UTF8ToGBK(const char* strUTF8)
 }
 
 //数据合法性检查
-bool checkData(char* data) {
+bool check_data(const char* data) {
 	int i = 0;
 	while (data[i]) {
-		if (data[i] == ' ') {
+		if (data[i] == '#') {
 			return false;
 		}
 		i++;
@@ -128,10 +128,10 @@ bool checkData(char* data) {
 	return true;
 }
 
-bool checkData(string data) {
+bool check_data(string data) {
 	int i = 0;
 	while (i < data.length()) {
-		if (data[i] == ' ') {
+		if (data[i] == '#') {
 			return false;
 		}
 		i++;
@@ -167,7 +167,7 @@ void MainWindow::OnDOMReady(View* caller) {
 	//主JS处理
 	SetJSContext(caller->js_context());
 	//全局js对象
-	JSObject global = JSGlobalObject();
+	const JSObject global = JSGlobalObject();
 
 	//绑定C++方法到窗口JavaScript对象，传递的参数为方法的指针
 	global["GetAccount"] = BindJSCallbackWithRetval(&MainWindow::GetAccount);
@@ -188,7 +188,8 @@ char* getArgs(const JSArgs& args, int index) {
 }
 
 
-JSValue MainWindow::GetAccount(const JSObject& thisObject, const JSArgs& args) {
+JSValue MainWindow::GetAccount(const JSObject& thisObject, const JSArgs& args)
+{
 	char* id_acc = getArgs(args, 0);
 
 	//获取数据
@@ -233,23 +234,23 @@ JSValue MainWindow::GetLists(const JSObject& thisObject, const JSArgs& args) {
 JSValue MainWindow::RemoveAccount(const JSObject& thisObject, const JSArgs& args) {
 	char* id_acc = getArgs(args, 0);
 
-	logicAdapt->Delete(id_acc);
+	bool removed = logicAdapt->Delete(id_acc);
 
 	//判断是否删除成功
-	if (true) {
+	if (removed) {
 
 		//重新读取数据
 		this->overlay_->view()->EvaluateScript("read_data()");
-		//刷新提示列表
-		this->overlay_->view()->EvaluateScript("initial_selections($('#id_account').val())");
 		//清空显示数据
 		this->overlay_->view()->EvaluateScript("clearDisplay()");
 		//重新输入框数据
 		this->overlay_->view()->EvaluateScript("$('#id_account').val('')");
+		//刷新提示列表
+		this->overlay_->view()->EvaluateScript("initial_selections('')");
 	}
 	else {
 		//提示删除失败
-		this->overlay_->view()->EvaluateScript((String8)GBKToUTF8("showMessage('删除失败', '账号不存在')").c_str());
+		this->overlay_->view()->EvaluateScript(static_cast<String8>(GBKToUTF8("showMessage('删除失败', '账号不存在')").c_str()));
 
 	}
 
@@ -269,7 +270,7 @@ JSValue MainWindow::AddAccount(const JSObject& thisObject, const JSArgs& args) {
 		balance = atof(balance_raw);
 	}
 	catch (...) {
-		this->overlay_->view()->EvaluateScript((String8)GBKToUTF8("showMessage('添加失败', '非法的存款数据')").c_str());
+		this->overlay_->view()->EvaluateScript(static_cast<String8>(GBKToUTF8("showMessage('添加失败', '非法的存款数据')").c_str()));
 		return NULL;
 	}
 	
@@ -281,9 +282,9 @@ JSValue MainWindow::AddAccount(const JSObject& thisObject, const JSArgs& args) {
 
 
 	//检查数据
-	if (!(checkData(id_acc) && checkData(id_card) && checkData(name_encoded) && checkData(address_encoded))) {
+	if (!(check_data(id_acc) && check_data(id_card) && check_data(name_encoded) && check_data(address_encoded))) {
 
-		this->overlay_->view()->EvaluateScript((String8)GBKToUTF8("showMessage('添加失败', '请不要输入特殊字符（包括空格）')").c_str());
+		this->overlay_->view()->EvaluateScript(static_cast<String8>(GBKToUTF8("showMessage('添加失败', '请不要输入特殊字符（包括空格）')").c_str()));
 		return NULL;
 	}
 
@@ -321,7 +322,7 @@ JSValue MainWindow::EditAccount(const JSObject& thisObject, const JSArgs& args) 
 		balance = atof(balance_raw);
 	}
 	catch (...) {
-		this->overlay_->view()->EvaluateScript((String8)GBKToUTF8("showMessage('编辑失败', '非法的存款数据')").c_str());
+		this->overlay_->view()->EvaluateScript(static_cast<String8>(GBKToUTF8("showMessage('编辑失败', '非法的存款数据')").c_str()));
 		return NULL;
 	}
 	//处理编码
@@ -331,9 +332,10 @@ JSValue MainWindow::EditAccount(const JSObject& thisObject, const JSArgs& args) 
 
 
 	//检查数据
-	if (!(checkData(id_acc) && checkData(id_card) && checkData(name_encoded) && checkData(address_encoded))) {
+	if (!(check_data(id_acc) && check_data(id_card) && check_data(name_encoded) && check_data(address_encoded))) {
 
-		this->overlay_->view()->EvaluateScript((String8)GBKToUTF8("showMessage('添加失败', '请不要输入特殊字符（包括空格）')").c_str());
+		this->overlay_->view()->EvaluateScript(static_cast<String8>(GBKToUTF8("showMessage('添加失败', '请不要输入特殊字符（包括空格）')").c_str()));
+		this->overlay_->view()->EvaluateScript("flushDisplay()");
 		return NULL;
 	}
 

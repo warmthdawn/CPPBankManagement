@@ -2,6 +2,7 @@
 #include "BankAccount.h"
 #include <string>
 #define FILE_NAME "file_bankaccount.dat"   //文件名
+#define DEliM '#'                          //分割符
 using namespace std;
 //账户文件类
 class AccountFile

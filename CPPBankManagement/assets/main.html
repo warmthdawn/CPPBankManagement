@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-grid.min">
     <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+    <style>
+        .ls2::first-letter {
+            letter-spacing: 2em;
+        }
+    </style>
 
 </head>
 
@@ -51,15 +56,21 @@
             </div>
             <div class="media">
                 <template v-if="editing">
-                    <div class="media-body form-inline">
+                    <div class="media-body">
                         <div class="card-body">
-                            <h5 class="card-title">姓名：<input type="text" class="form-control" v-model="name_display">
-                            </h5>
-                            <h6 class="card-subtitle mb-2 text-muted">身份证号：<input type="text"
-                                    class="form-control  form-control-sm w-75" v-model="id_dispaly"></h6>
-                            <p class="card-text">地址：<input type="text" class="form-control form-control-sm"
-                                    v-model="address_display">
-                            </p>
+                            <div class="form-row">
+                                <h5 class="card-title ls2 text-nowrap col-3">姓名：</h5>
+                                <input type="text" class="form-control form-control-sm col-5" v-model="name_display">
+                            </div>
+                            <div class="form-row">
+                                <h5 class="card-title text-nowrap col-3">身份证号：</h5>
+                                <input type="text" class="form-control form-control-sm col-9" v-model="id_dispaly">
+                            </div>
+                            <div class="form-row">
+                                <h5 class="card-title ls2 text-nowrap col-3">地址：</h5>
+                                <input type="text" class="form-control form-control-sm col-9" v-model="address_display">
+
+                            </div>
                         </div>
                     </div>
                     <div class="align-self-center m-1">
@@ -73,13 +84,22 @@
                 <template v-else>
                     <div class="media-body">
                         <div class="card-body">
-                            <h5 class="card-title">姓名：{{name_display}}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">身份证号：{{id_dispaly}}</h6>
-                            <p class="card-text">地址：{{address_display}}</p>
+                            <div class="row">
+                                <h5 class="card-title ls2 text-nowrap col-3">姓名：</h5>
+                                <h5 class="card-text pl-4 col-5">{{name_display}}</h5>
+                            </div>
+                            <div class="row">
+                                <h5 class="card-title text-nowrap col-3">身份证号：</h5>
+                                <h5 class="card-text pl-4 col-9">{{id_dispaly}}</h5>
+                            </div>
+                            <div class="row">
+                                <h5 class="card-title ls2 text-nowrap col-3">地址：</h5>
+                                <h5 class="card-text pl-4 col-9">{{address_display}}</h5>
+                            </div>
                         </div>
                     </div>
-                    <div class="align-self-center mr-5 pr-5">
-                        <h5 class="text-center">
+                    <div class="align-self-center m-1 pr-5">
+                        <h5 class="text-center text-nowrap ">
                             账户余额
                         </h5>
                         <h3>
@@ -110,7 +130,7 @@
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/vue.js"></script>
+    <script src="js/vue.min.js"></script>
     <script>
         let data = [];
         let toggleOn = function () {
@@ -236,6 +256,13 @@
                     $('#modal_info').modal('show');
                 },
                 btn_cancel: function () {
+                    if (this.add) {
+                        $('#id_account').val('');
+                        initial_selections('');
+                        clearDisplay();
+                    } else {
+                        flushDisplay();
+                    }
                     this.editing = false;
                 }
 

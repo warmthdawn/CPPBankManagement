@@ -34,11 +34,11 @@ bool AccountFile::writeObject()                                //写入对象
 		return false;
 	}
 	//写入对象的数据成员
-	fileout << object_account->getId_account() << " "
-		<< object_account->getId_card() << " "
-		<< object_account->getName() << " "
-		<< object_account->getAddress() << " "
-		<< to_string(object_account->getBalance()) << endl;
+	fileout << object_account->getId_account() << DEliM
+		<< object_account->getId_card() << DEliM
+		<< object_account->getName() << DEliM
+		<< object_account->getAddress() << DEliM
+		<< to_string(object_account->getBalance()) << DEliM;
 	fileout.close();
 	//将文本文件转化为二进制文件
 	TxtToBinary(FILE_NAME);
@@ -59,7 +59,11 @@ string AccountFile::readObject()                               //读取对象
 	//读取对象数量
 	string get_id_account, get_id_card, get_name, get_address, get_balance;
 	int i = 0; //记录对象数量
-	while (filein >> get_id_account && filein >> get_id_card && filein >> get_name && filein >> get_address && filein >> get_balance)
+	while (getline(filein, get_id_account, DEliM)
+		&& getline(filein, get_id_card, DEliM)
+		&& getline(filein, get_name, DEliM)
+		&& getline(filein, get_address, DEliM)
+		&& getline(filein, get_balance, DEliM))
 	{
 		i++;
 	}
@@ -72,8 +76,19 @@ string AccountFile::readObject()                               //读取对象
 	string* address = new string[i];
 	string* balance = new string[i];
 	int k = 0; //给数组赋值
-	while (filein0 >> id_account[k] && filein0 >> id_card[k] && filein0 >> name[k] && filein0 >> address[k] && filein0 >> balance[k])
+	while (1)
 	{
+		string get_id_account = "null"; //防止溢出
+		getline(filein0, get_id_account, DEliM);
+		if (get_id_account == "") //判断是否溢出
+		{
+			break;
+		}
+		id_account[k] = get_id_account;
+		getline(filein0, id_card[k], DEliM);
+		getline(filein0, name[k], DEliM);
+		getline(filein0, address[k], DEliM);
+		getline(filein0, balance[k], DEliM);
 		k++;
 	}
 	filein0.close();
@@ -119,7 +134,11 @@ bool AccountFile::deleteObject()                               //删除对象
 	//读取对象数量
 	string get_id_account, get_id_card, get_name, get_address, get_balance;
 	int i = 0; //记录对象数量
-	while (filein >> get_id_account && filein >> get_id_card && filein >> get_name && filein >> get_address && filein >> get_balance)
+	while (getline(filein, get_id_account, DEliM)
+		&& getline(filein, get_id_card, DEliM)
+		&& getline(filein, get_name, DEliM)
+		&& getline(filein, get_address, DEliM)
+		&& getline(filein, get_balance, DEliM))
 	{
 		i++;
 	}
@@ -132,8 +151,19 @@ bool AccountFile::deleteObject()                               //删除对象
 	string* address = new string[i];
 	string* balance = new string[i];
 	int k = 0; //给数组赋值
-	while (filein0 >> id_account[k] && filein0 >> id_card[k] && filein0 >> name[k] && filein0 >> address[k] && filein0 >> balance[k])
+	while (1)
 	{
+		string get_id_account = "null"; //防止溢出
+		getline(filein0, get_id_account, DEliM);
+		if (get_id_account == "") //判断是否溢出
+		{
+			break;
+		}
+		id_account[k] = get_id_account;
+		getline(filein0, id_card[k], DEliM);
+		getline(filein0, name[k], DEliM);
+		getline(filein0, address[k], DEliM);
+		getline(filein0, balance[k], DEliM);
 		k++;
 	}
 	filein0.close();
@@ -155,19 +185,19 @@ bool AccountFile::deleteObject()                               //删除对象
 	ofstream fileout(FILE_NAME, ios::out | ios::binary);
 	for (int i = 0; i < place; i++)            //写入删除对象之前的对象
 	{
-		fileout << id_account[i] << " "
-			<< id_card[i] << " "
-			<< name[i] << " "
-			<< address[i] << " "
-			<< balance[i] << endl;
+		fileout << id_account[i] << DEliM
+			<< id_card[i] << DEliM
+			<< name[i] << DEliM
+			<< address[i] << DEliM
+			<< balance[i] << DEliM;
 	}
 	for (int i = place + 1; i < count; i++)    //写入删除对象之后的对象
 	{
-		fileout << id_account[i] << " "
-			<< id_card[i] << " "
-			<< name[i] << " "
-			<< address[i] << " "
-			<< balance[i] << endl;
+		fileout << id_account[i] << DEliM
+			<< id_card[i] << DEliM
+			<< name[i] << DEliM
+			<< address[i] << DEliM
+			<< balance[i] << DEliM;
 	}
 	fileout.close();
 	//将文本文件转化为二进制文件
@@ -194,7 +224,11 @@ int AccountFile::allObject(string** result)                    //所有账号
 	//读取对象数量
 	string get_id_account, get_id_card, get_name, get_address, get_balance;
 	int i = 0; //记录对象数量
-	while (filein >> get_id_account && filein >> get_id_card && filein >> get_name && filein >> get_address && filein >> get_balance)
+	while (getline(filein, get_id_account, DEliM)
+		&& getline(filein, get_id_card, DEliM)
+		&& getline(filein, get_name, DEliM)
+		&& getline(filein, get_address, DEliM)
+		&& getline(filein, get_balance, DEliM))
 	{
 		i++;
 	}
@@ -207,8 +241,19 @@ int AccountFile::allObject(string** result)                    //所有账号
 	string* address = new string[i];
 	string* balance = new string[i];
 	int k = 0; //给数组赋值
-	while (filein0 >> id_account[k] && filein0 >> id_card[k] && filein0 >> name[k] && filein0 >> address[k] && filein0 >> balance[k])
+	while (1)
 	{
+		string get_id_account = "null"; //防止溢出
+		getline(filein0, get_id_account, DEliM);
+		if (get_id_account == "") //判断是否溢出
+		{
+			break;
+		}
+		id_account[k] = get_id_account;
+		getline(filein0, id_card[k], DEliM);
+		getline(filein0, name[k], DEliM);
+		getline(filein0, address[k], DEliM);
+		getline(filein0, balance[k], DEliM);
 		k++;
 	}
 	filein0.close();
@@ -254,7 +299,11 @@ BankAccount AccountFile::findAccount(string input_id_account)  //Adapt类中要用到
 	//读取对象数量
 	string get_id_account, get_id_card, get_name, get_address, get_balance;
 	int i = 0; //记录对象数量
-	while (filein >> get_id_account && filein >> get_id_card && filein >> get_name && filein >> get_address && filein >> get_balance)
+	while (getline(filein, get_id_account, DEliM)
+		&& getline(filein, get_id_card, DEliM)
+		&& getline(filein, get_name, DEliM)
+		&& getline(filein, get_address, DEliM)
+		&& getline(filein, get_balance, DEliM))
 	{
 		i++;
 	}
@@ -267,9 +316,13 @@ BankAccount AccountFile::findAccount(string input_id_account)  //Adapt类中要用到
 	string address = "";
 	string balance = "";
 	BankAccount account;
-	while (filein0 >> id_account && filein0 >> id_card && filein0 >> name && filein0 >> address && filein0 >> balance)
+	while (getline(filein0, id_account, DEliM)
+		&& getline(filein0, id_card, DEliM)
+		&& getline(filein0, name, DEliM)
+		&& getline(filein0, address, DEliM)
+		&& getline(filein0, balance, DEliM))
 	{
-		if(id_account == input_id_account)
+		if (id_account == input_id_account)
 		{
 			double double_balance = atof(const_cast<const char*>(balance.c_str())); //把字符串转换为浮点型
 			account = BankAccount(id_account, id_card, name, address, double_balance);
