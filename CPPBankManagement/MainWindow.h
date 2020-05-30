@@ -54,6 +54,6 @@ protected:
 	RefPtr<Window> window_;
 	RefPtr<Overlay> overlay_;
 private:
-	Adapt* logicAdapt;
-	View* displayView;
+	Adapt* logicAdapt{};
+	View* displayView{};
 };

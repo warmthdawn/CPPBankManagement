@@ -7,7 +7,7 @@
 using namespace ultralight;
 
 //窗口默认宽度
-#define WINDOW_WIDTH  700
+#define WINDOW_WIDTH  750
 
 //窗口默认高度
 #define WINDOW_HEIGHT 450
@@ -22,6 +22,7 @@ MainWindow::MainWindow() {
 		//含标题，可以最大化，可以调整大小
 		false, kWindowFlags_Titled | kWindowFlags_Maximizable | kWindowFlags_Resizable);
 
+	
 	//窗口标题
 	window_->SetTitle("银行管理系统");
 	//设置主窗口
@@ -273,7 +274,7 @@ JSValue MainWindow::AddAccount(const JSObject& thisObject, const JSArgs& args) {
 		this->overlay_->view()->EvaluateScript(static_cast<String8>(GBKToUTF8("showMessage('添加失败', '非法的存款数据')").c_str()));
 		return NULL;
 	}
-	
+
 
 
 	//处理编码
