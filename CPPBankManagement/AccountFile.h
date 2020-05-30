@@ -3,6 +3,7 @@
 #include <string>
 #define FILE_NAME "file_bankaccount.dat"   //文件名
 #define DEliM '#'                          //分割符
+#define PRECISION 2                        //保留小数点位数
 using namespace std;
 //账户文件类
 class AccountFile

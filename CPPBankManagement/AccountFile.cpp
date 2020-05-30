@@ -107,7 +107,7 @@ string AccountFile::readObject()                               //∂¡»°∂‘œÛ
 				+ "\"," + "\"id_card\":\"" + bankaccount.getId_card()
 				+ "\"," + "\"name\":\"" + bankaccount.getName()
 				+ "\"," + "\"address\":\"" + bankaccount.getAddress()
-				+ "\"," + "\"balance\":\" " + to_string(bankaccount.getBalance())
+				+ "\"," + "\"balance\":\" " + (to_string(bankaccount.getBalance())).substr(0, (to_string(bankaccount.getBalance()).size() - (6 - PRECISION)))
 				+ "\"}";
 			break;
 		}

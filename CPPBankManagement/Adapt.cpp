@@ -1,7 +1,7 @@
-#include<iostream>
-#include<string>
-#include"AccountFile.h"
-#include"Adapt.h"
+#include <iostream>
+#include <string>
+#include "AccountFile.h"
+#include "Adapt.h"
 Adapt::Adapt(string id_account, string id_card, string name, string address, double balance)   //构造函数 包括余额
 	: id_account(id_account), id_card(id_card), name(name), address(address), balance(balance)
 {
@@ -82,7 +82,7 @@ string Adapt::getAll(string id_account) {
 		+ "\"," + "\"id_card\":\"" + account.getId_card()
 		+ "\"," + "\"name\":\"" + account.getName()
 		+ "\"," + "\"address\":\"" + account.getAddress()
-		+ "\"," + "\"balance\":\" " + to_string(account.getBalance())
+		+ "\"," + "\"balance\":\" " + (to_string(account.getBalance())).substr(0, (to_string(account.getBalance()).size() - (6 - PRECISION)))
 		+ "\"}");
 	return str;
 }
