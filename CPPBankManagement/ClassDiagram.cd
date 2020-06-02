@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AccountFile">
+    <Position X="5.5" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AgIAAAAAAAEAAAAiAAAAAAAAAGAAAECACIIAAAAgAAA=</HashCode>
+      <FileName>AccountFile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Adapt">
+    <Position X="8" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAEAAAAAAAAAAAAAAAAEAAAAAAIAAIAIAAAA=</HashCode>
+      <FileName>Adapt.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BankAccount">
+    <Position X="3" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAgAAAAAAACAAAIAAIEAABAAAsGAiAAgAA=</HashCode>
+      <FileName>BankAccount.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MainWindow">
+    <Position X="10.5" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAkBAAAAAAAAIAQQEEAAAAAAAAQAAQAAMCAEEAAEI=</HashCode>
+      <FileName>MainWindow.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

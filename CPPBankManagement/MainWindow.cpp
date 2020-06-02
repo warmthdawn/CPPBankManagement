@@ -190,6 +190,7 @@ char* getArgs(const JSArgs& args, int index) {
 }
 
 
+//读取
 JSValue MainWindow::GetAccount(const JSObject& thisObject, const JSArgs& args)
 {
 	char* id_acc = getArgs(args, 0);
@@ -205,7 +206,7 @@ JSValue MainWindow::GetAccount(const JSObject& thisObject, const JSArgs& args)
 }
 
 
-//
+//账号列表
 JSValue MainWindow::GetLists(const JSObject& thisObject, const JSArgs& args) {
 
 	//此方法有数据操作类封装，此处注释
