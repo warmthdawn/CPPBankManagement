@@ -5,7 +5,10 @@
 #include <string>
 #include "Text_Binary.h"
 #define SIZE  8                            // 每次读取字符数目为8
+
 using namespace std;
+
+//文本转二进制
 void TxtToBinary(const char* filename) {
     ifstream fin;
     ofstream fout;
@@ -27,6 +30,8 @@ void TxtToBinary(const char* filename) {
     remove(filename);
     rename("mybinary.dat", filename);
 }
+
+//二进制转文本
 void BinaryToTxt(const char* filename) {
     ifstream fin;
     ofstream fout;

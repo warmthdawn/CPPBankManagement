@@ -2,26 +2,12 @@
 #include <string>
 #include "AccountFile.h"
 #include "Adapt.h"
-Adapt::Adapt(string id_account, string id_card, string name, string address, double balance)   //构造函数 包括余额
-	: id_account(id_account), id_card(id_card), name(name), address(address), balance(balance)
-{
+
+//构造函数
+Adapt::Adapt() {
 
 }
-Adapt::Adapt(string id_account, string id_card, string name, string address)                   //构造函数 不包括余额
-	: id_account(id_account), id_card(id_card), name(name), address(address), balance(0.00)
-{
 
-}
-Adapt::Adapt(string id_account)                                                                //构造函数 只有账号
-	: id_account(id_account), id_card(""), name(""), address(""), balance(0.00)
-{
-
-}
-Adapt::Adapt()                                                                                 //构造函数 默认所有字符串为"null"
-	: id_account("null"), id_card("null"), name("null"), address("null"), balance(0.00)
-{
-
-}
 //Adapt类中删除账户函数的实现
 bool Adapt::Delete(string id_account) {
 	AccountFile* account0 = new AccountFile(id_account);
@@ -30,7 +16,8 @@ bool Adapt::Delete(string id_account) {
 	delete account0;
 	return success ? true : false;
 }
-//四种添加构造
+
+//添加构造 包括余额
 bool Adapt::Add(string id_account, string id_card, string name, string address, double balance) {
 	BankAccount* account = new BankAccount(id_account, id_card, name, address, balance);
 	AccountFile* fileAccount = new AccountFile(id_account, account);
@@ -42,6 +29,8 @@ bool Adapt::Add(string id_account, string id_card, string name, string address, 
 	delete fileAccount;
 	return true;
 }
+
+//添加构造 不包括余额
 bool Adapt::Add(string id_account, string id_card, string name, string address) {
 	BankAccount* account = new BankAccount(id_account, id_card, name, address);
 	AccountFile* fileAccount = new AccountFile(id_account, account);
@@ -53,6 +42,8 @@ bool Adapt::Add(string id_account, string id_card, string name, string address) 
 	delete fileAccount;
 	return true;
 }
+
+//添加构造 只有账号
 bool Adapt::Add(string id_account) {
 	BankAccount* account = new BankAccount(id_account);
 	AccountFile* fileAccount = new AccountFile(id_account, account);
@@ -64,9 +55,11 @@ bool Adapt::Add(string id_account) {
 	delete fileAccount;
 	return true;
 }
+
+//添加构造 默认所有字符串为"null"
 bool Adapt::Add() {
 	BankAccount* account = new BankAccount();
-	AccountFile* fileAccount = new AccountFile(id_account, account);
+	AccountFile* fileAccount = new AccountFile("null", account);
 	if (fileAccount->judge()) {
 		fileAccount->deleteObject();
 	}
@@ -75,6 +68,8 @@ bool Adapt::Add() {
 	delete fileAccount;
 	return true;
 }
+
+//得到指定账户信息
 string Adapt::getAll(string id_account) {
 	AccountFile* fileAccount = new AccountFile(id_account);
 	BankAccount account = fileAccount->findAccount(id_account);
@@ -86,6 +81,8 @@ string Adapt::getAll(string id_account) {
 		+ "\"}");
 	return str;
 }
+
+//得到所有账号
 string Adapt::All() {
 	//实现对象中每种数据的转换
 	string* all = NULL;
@@ -102,4 +99,9 @@ string Adapt::All() {
 	}
 	s.append("\"]");
 	return s;
+}
+
+//析构函数
+Adapt::~Adapt() {
+
 }

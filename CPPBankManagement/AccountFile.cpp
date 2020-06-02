@@ -3,27 +3,37 @@
 #include "Text_Binary.h"
 #include <fstream>
 #include <iostream>
-AccountFile::AccountFile(string id_account, BankAccount* object_account)               //¹¹Ôìº¯Êı ÓĞÕËºÅÓĞ¶ÔÏó
+
+//¹¹Ôìº¯Êı ÓĞÕËºÅÓĞ¶ÔÏó
+AccountFile::AccountFile(string id_account, BankAccount* object_account)
 	: id_account(id_account), object_account(object_account), file_name(FILE_NAME)
 {
 
 }
-AccountFile::AccountFile(BankAccount* object_account)                                  //¹¹Ôìº¯Êı ÎŞÕËºÅÓĞ¶ÔÏó
+
+//¹¹Ôìº¯Êı ÎŞÕËºÅÓĞ¶ÔÏó
+AccountFile::AccountFile(BankAccount* object_account)
 	: id_account("null"), object_account(object_account), file_name(FILE_NAME)
 {
 
 }
-AccountFile::AccountFile(string id_account)                                            //¹¹Ôìº¯Êı ÓĞÕËºÅÎŞ¶ÔÏó
+
+//¹¹Ôìº¯Êı ÓĞÕËºÅÎŞ¶ÔÏó
+AccountFile::AccountFile(string id_account)
 	: id_account(id_account), object_account(0), file_name(FILE_NAME)
 {
 
 }
-AccountFile::AccountFile()                                                             //¹¹Ôìº¯Êı ÎŞÕËºÅÎŞ¶ÔÏó
+
+//¹¹Ôìº¯Êı ÎŞÕËºÅÎŞ¶ÔÏó
+AccountFile::AccountFile()
 	: id_account("null"), object_account(0), file_name(FILE_NAME)
 {
 
 }
-bool AccountFile::writeObject()                                //Ğ´Èë¶ÔÏó
+
+//Ğ´Èë¶ÔÏó
+bool AccountFile::writeObject()
 {
 	//½«¶ş½øÖÆÎÄ¼ş×ª»»ÎªÎÄ±¾ÎÄ¼ş
 	BinaryToTxt(FILE_NAME);
@@ -44,7 +54,9 @@ bool AccountFile::writeObject()                                //Ğ´Èë¶ÔÏó
 	TxtToBinary(FILE_NAME);
 	return true;
 }
-string AccountFile::readObject()                               //¶ÁÈ¡¶ÔÏó
+
+//¶ÁÈ¡¶ÔÏó
+string AccountFile::readObject()
 {
 	//½«¶ş½øÖÆÎÄ¼ş×ª»»ÎªÎÄ±¾ÎÄ¼ş
 	BinaryToTxt(FILE_NAME);
@@ -120,7 +132,9 @@ string AccountFile::readObject()                               //¶ÁÈ¡¶ÔÏó
 	delete[] balance;
 	return account;
 }
-bool AccountFile::deleteObject()                               //É¾³ı¶ÔÏó
+
+//É¾³ı¶ÔÏó
+bool AccountFile::deleteObject()
 {
 	//½«¶ş½øÖÆÎÄ¼ş×ª»»ÎªÎÄ±¾ÎÄ¼ş
 	BinaryToTxt(FILE_NAME);
@@ -210,7 +224,9 @@ bool AccountFile::deleteObject()                               //É¾³ı¶ÔÏó
 	delete[] balance;
 	return true;
 }
-int AccountFile::allObject(string** result)                    //ËùÓĞÕËºÅ
+
+//»ñÈ¡ËùÓĞÕËºÅ
+int AccountFile::allObject(string** result)
 {
 	//½«¶ş½øÖÆÎÄ¼ş×ª»»ÎªÎÄ±¾ÎÄ¼ş
 	BinaryToTxt(FILE_NAME);
@@ -275,7 +291,9 @@ int AccountFile::allObject(string** result)                    //ËùÓĞÕËºÅ
 	delete[] balance;
 	return i;
 }
-bool AccountFile::judge()                                      //Ò»¸öĞ¡µÄÅĞ¶Ïº¯Êı
+
+//ÅĞ¶ÏÕË»§ÊÇ·ñÖØ¸´
+bool AccountFile::judge()
 {
 	string* id_account = NULL;
 	int nums = this->allObject(&id_account);
@@ -286,7 +304,9 @@ bool AccountFile::judge()                                      //Ò»¸öĞ¡µÄÅĞ¶Ïº¯Ê
 	}
 	return false;
 }
-BankAccount AccountFile::findAccount(string input_id_account)  //AdaptÀàÖĞÒªÓÃµ½µÄÒ»¸öº¯Êı
+
+//AdaptÀàÖĞÒªÓÃµ½µÄÒ»¸öº¯Êı
+BankAccount AccountFile::findAccount(string input_id_account)
 {
 	//½«¶ş½øÖÆÎÄ¼ş×ª»»ÎªÎÄ±¾ÎÄ¼ş
 	BinaryToTxt(FILE_NAME);
@@ -334,7 +354,9 @@ BankAccount AccountFile::findAccount(string input_id_account)  //AdaptÀàÖĞÒªÓÃµ½
 	TxtToBinary(FILE_NAME);
 	return account;
 }
-AccountFile::~AccountFile()                                                            //Îö¹¹º¯Êı
+
+//Îö¹¹º¯Êı
+AccountFile::~AccountFile()
 {
 
 }

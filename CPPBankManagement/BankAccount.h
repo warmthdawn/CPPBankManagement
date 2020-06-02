@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
+
 using namespace std;
-//银行账户
+
+//银行账户类
 class BankAccount
 {
 public:

@@ -4,7 +4,9 @@
 #define FILE_NAME "file_bankaccount.dat"   //文件名
 #define DEliM '#'                          //分割符
 #define PRECISION 2                        //保留小数点位数
+
 using namespace std;
+
 //账户文件类
 class AccountFile
 {
@@ -29,7 +31,9 @@ public:
 	{
 		this->id_account = id_account;
 	}
+	//判断是否重复函数
 	bool judge();                                                      //一个判断是否有重复账户的函数
+	//析构函数
 	~AccountFile();                                                    //析构函数
 private:
 	string file_name;                      //文件名

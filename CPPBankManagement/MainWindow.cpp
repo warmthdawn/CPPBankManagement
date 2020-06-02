@@ -178,6 +178,7 @@ void MainWindow::OnDOMReady(View* caller) {
 	global["EditAccount"] = BindJSCallbackWithRetval(&MainWindow::EditAccount);
 
 	displayView = caller;
+	cout << "窗体初始化完成" << endl;
 }
 
 //将JS参数转换为字符串
@@ -226,7 +227,7 @@ JSValue MainWindow::GetLists(const JSObject& thisObject, const JSArgs& args) {
 	cout << s;
 	return JSValue(s.c_str());
 	*/
-
+	cout << "准备开始读取账户列表" << endl;
 	string all = logicAdapt->All();
 	return JSValue(all.c_str());
 
@@ -237,6 +238,7 @@ JSValue MainWindow::RemoveAccount(const JSObject& thisObject, const JSArgs& args
 
 	bool removed = logicAdapt->Delete(id_acc);
 
+	cout << "删除账号" << id_acc << endl;
 	//判断是否删除成功
 	if (removed) {
 
@@ -276,6 +278,7 @@ JSValue MainWindow::AddAccount(const JSObject& thisObject, const JSArgs& args) {
 	}
 
 
+	cout << "添加账号" << id_acc << endl;
 
 	//处理编码
 	string name_encoded = UTF8ToGBK(name);
@@ -331,6 +334,7 @@ JSValue MainWindow::EditAccount(const JSObject& thisObject, const JSArgs& args) 
 	string address_encoded = UTF8ToGBK(address);
 
 
+	cout << "编辑账号" << id_acc << endl;
 
 	//检查数据
 	if (!(check_data(id_acc) && check_data(id_card) && check_data(name_encoded) && check_data(address_encoded))) {
